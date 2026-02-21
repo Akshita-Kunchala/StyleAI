@@ -1,0 +1,16 @@
+node_modules/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.zip
+*.pt
+*.pth
+*.h5
+*.onnx
+dataset/
+data/
+.DS_Store
