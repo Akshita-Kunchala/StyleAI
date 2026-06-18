@@ -134,7 +134,7 @@ if st.session_state.step == 1:
             "Skin tone",
             ["Very Fair", "Fair", "Olive", "Dusky", "Deep"],
             index=["Very Fair", "Fair", "Olive", "Dusky", "Deep"].index(
-                get_state("skin_tone", "Medium")
+                get_state("skin_tone", "Olive")
             ),
         )
         st.session_state.body_type = st.selectbox(
