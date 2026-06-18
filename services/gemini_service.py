@@ -11,11 +11,7 @@ client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 # Use ONE stable model only
 MODEL = "models/gemini-2.5-flash"
 
-
-def _call_gemini(prompt, retries=3):
-    """
-    Safe Gemini call with retry for 429 errors
-    """
+def _call_gemini(prompt, retries=5):
     for attempt in range(retries):
         try:
             response = client.models.generate_content(
@@ -27,13 +23,16 @@ def _call_gemini(prompt, retries=3):
         except Exception as e:
             error_text = str(e)
 
-            # Rate limit handling
-            if "429" in error_text:
-                time.sleep(10)
-            else:
-                raise e
+            if "429" in error_text or "503" in error_text:
+                wait_time = (attempt + 1) * 5
+                time.sleep(wait_time)
+                continue
 
-    raise Exception("Gemini rate limit exceeded. Please try again.")
+            raise e
+
+    raise Exception(
+        "StyleAI is busy right now. Please try again in a few minutes."
+    )
 
 
 def get_style_recommendation(data):
